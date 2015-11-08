@@ -1,3 +1,4 @@
+var buttonPressed=false;
 var langs =
     [['Afrikaans', ['af-ZA']],
         ['Bahasa Indonesia', ['id-ID']],
@@ -123,30 +124,34 @@ if (!('webkitSpeechRecognition' in window)) {
 
     recognition.onend = function () {
         console.log("onend restarting");
-        recognition.start();
+        if(!buttonPressed) {
+            recognition.start();
+        }
+        else {
 
-         /*
-         recognizing = false;
-         if (ignore_onend) {
-         return;
-         }
-         start_img.src = 'mic.gif';
-         if (!final_transcript) {
-         showInfo('info_start');
-         return;
-         }
-         showInfo('');
-         if (window.getSelection) {
-         window.getSelection().removeAllRanges();
-         var range = document.createRange();
-         range.selectNode(document.getElementById('final_span'));
-         window.getSelection().addRange(range);
-         }
-         if (create_email) {
-         create_email = false;
-         createEmail();
-         }
-         */
+            recognizing = false;
+            if (ignore_onend) {
+                return;
+            }
+            start_img.src = 'mic.gif';
+            if (!final_transcript) {
+                showInfo('info_start');
+                return;
+            }
+            showInfo('');
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+                var range = document.createRange();
+                range.selectNode(document.getElementById('final_span'));
+                window.getSelection().addRange(range);
+            }
+            if (create_email) {
+                create_email = false;
+                createEmail();
+            }
+            buttonPressed=false;
+        }
+
     };
 
     recognition.onresult = function (event) {
@@ -222,6 +227,7 @@ function startButton(event) {
     if (recognizing) {
         recognition.stop();
         recognizing = false;
+        buttonPressed=true;
         start_img.src = 'mic.gif';
         if (!final_transcript) {
             showInfo('info_start');
