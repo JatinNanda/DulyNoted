@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js consumer" lang="en">
   <head>
-
+    <script src="jquery-1.11.3.min.js"></script>
     <script>
 (function(e, p){
     var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
@@ -42,138 +42,138 @@ new gweb.analytics.AutoTrack({
   <script type="text/javascript" src="js/basic.js"></script>
   <style>
 #info {
-  font-size: 20px;
-  }
-  #div_start {
-  float: right;
-  }
-  #headline {
-  text-decoration: none
-  }
-  #results {
-  font-size: 14px;
-  font-weight: bold;
-  border: 1px solid #ddd;
-  padding: 15px;
-  text-align: left;
-  min-height: 150px;
-  }
-  #start_button {
-  border: 0;
-  background-color:transparent;
-  padding: 0;
-  }
-  .interim {
-  color: gray;
-  }
-  .final {
-  color: black;
-  padding-right: 3px;
-  }
-  .button {
-  display: none;
-  }
-  .marquee {
-  margin: 20px auto;
-  }
+    font-size: 20px;
+    }
+    #div_start {
+    float: right;
+    }
+    #headline {
+    text-decoration: none
+    }
+    #results {
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    min-height: 150px;
+    }
+    #start_button {
+    border: 0;
+    background-color:transparent;
+    padding: 0;
+    }
+    .interim {
+    color: gray;
+    }
+    .final {
+    color: black;
+    padding-right: 3px;
+    }
+    .button {
+    display: none;
+    }
+    .marquee {
+    margin: 20px auto;
+    }
 
-  #buttons {
-  margin: 10px 0;
-  position: relative;
-  top: -50px;
-  }
+    #buttons {
+    margin: 10px 0;
+    position: relative;
+    top: -50px;
+    }
 
-  #copy {
-  margin-top: 20px;
-  }
+    #copy {
+    margin-top: 20px;
+    }
 
-  #copy > div {
-  display: none;
-  margin: 0 70px;
-  }
-  </style>
-  <style>
+    #copy > div {
+    display: none;
+    margin: 0 70px;
+    }
+    </style>
+    <style>
 a.c1 {font-weight: normal;}
-  </style>
-</head>
-<body class="" id="grid">
-  <div class="browser-landing" id="main">
-    <div class="compact marquee-stacked" id="marquee">
-      <div class="marquee-copy">
-        <h1>
-          <a class="c1" href="http://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">Web
-          Speech API</a> Demonstration
-        </h1>
-      </div>
-    </div>
-    <div class="compact marquee">
-      <div id="info">
-        <p id="info_start">
-          Click on the microphone icon and begin speaking for as long as you like.
-        </p>
-        <p id="info_speak_now" style="display:none">
-          Speak now.
-        </p>
-        <p id="info_no_speech" style="display:none">
-          No speech was detected. You may need to adjust your <a href=
-          "//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone
-          settings</a>.
-        </p>
-        <p id="info_no_microphone" style="display:none">
-          No microphone was found. Ensure that a microphone is installed and that
-          <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-          microphone settings</a> are configured correctly.
-        </p>
-        <p id="info_allow" style="display:none">
-          Click the "Allow" button above to enable your microphone.
-        </p>
-        <p id="info_denied" style="display:none">
-          Permission to use microphone was denied.
-        </p>
-        <p id="info_blocked" style="display:none">
-          Permission to use microphone is blocked. To change, go to
-          chrome://settings/contentExceptions#media-stream
-        </p>
-        <p id="info_upgrade" style="display:none">
-          Web Speech API is not supported by this browser. Upgrade to <a href=
-          "//www.google.com/chrome">Chrome</a> version 25 or later.
-        </p>
-      </div>
-      <div id="div_start">
-        <button id="start_button" onclick="startButton(event)"><img alt="Start" id="start_img"
-        src="/intl/en/chrome/assets/common/images/content/mic.gif"></button>
-      </div>
-      <div id="results">
-        <span class="final" id="final_span"></span> <span class="interim" id=
-        "interim_span"></span>
-      </div>
-      <div id="copy">
-        <button class="button" id="copy_button" onclick="copyButton()">Copy and Paste</button>
-        <div id="copy_info">
-          <p>
-            Press Control-C to copy text.
-          </p>
-          <p>
-            (Command-C on Mac.)
-          </p>
-      </div><button class="button" id="email_button" onclick="downloadPDF()">Create
-        PDF</button>
-        <div id="email_info">
-          <p>
-            Text sent to default email application.
-          </p>
-          <p>
-            (See chrome://settings/handlers to change.)
-          </p>
+    </style>
+  </head>
+  <body class="" id="grid">
+    <div class="browser-landing" id="main">
+      <div class="compact marquee-stacked" id="marquee">
+        <div class="marquee-copy">
+          <h1>
+            <a class="c1" href="http://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">Web
+            Speech API</a> Demonstration
+          </h1>
         </div>
       </div>
-      <div class="compact marquee" id="div_language">
-        <select id="select_language" onchange="updateCountry()">
-          </select>&nbsp;&nbsp; <select id="select_dialect">
-          </select>
+      <div class="compact marquee">
+        <div id="info">
+          <p id="info_start">
+            Click on the microphone icon and begin speaking for as long as you like.
+          </p>
+          <p id="info_speak_now" style="display:none">
+            Speak now.
+          </p>
+          <p id="info_no_speech" style="display:none">
+            No speech was detected. You may need to adjust your <a href=
+            "//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone
+            settings</a>.
+          </p>
+          <p id="info_no_microphone" style="display:none">
+            No microphone was found. Ensure that a microphone is installed and that
+            <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+            microphone settings</a> are configured correctly.
+          </p>
+          <p id="info_allow" style="display:none">
+            Click the "Allow" button above to enable your microphone.
+          </p>
+          <p id="info_denied" style="display:none">
+            Permission to use microphone was denied.
+          </p>
+          <p id="info_blocked" style="display:none">
+            Permission to use microphone is blocked. To change, go to
+            chrome://settings/contentExceptions#media-stream
+          </p>
+          <p id="info_upgrade" style="display:none">
+            Web Speech API is not supported by this browser. Upgrade to <a href=
+            "//www.google.com/chrome">Chrome</a> version 25 or later.
+          </p>
+        </div>
+        <div id="div_start">
+          <button id="start_button" onclick="startButton(event)"><img alt="Start" id="start_img"
+          src="/intl/en/chrome/assets/common/images/content/mic.gif"></button>
+        </div>
+        <div id="results">
+          <span class="final" id="final_span"></span> <span class="interim" id=
+          "interim_span"></span>
+        </div>
+        <div id="copy">
+          <button class="button" id="copy_button" onclick="copyButton()">Copy and Paste</button>
+          <div id="copy_info">
+            <p>
+              Press Control-C to copy text.
+            </p>
+            <p>
+              (Command-C on Mac.)
+            </p>
+          </div><button class="button" id="email_button" onclick="emailButton()">Create
+          Email</button>
+          <div id="email_info">
+            <p>
+              Text sent to default email application.
+            </p>
+            <p>
+              (See chrome://settings/handlers to change.)
+            </p>
+          </div>
+        </div>
+        <div class="compact marquee" id="div_language">
+          <select id="select_language" onchange="updateCountry()">
+            </select>&nbsp;&nbsp; <select id="select_dialect">
+            </select>
+        </div>
       </div>
-    </div>
-  </div><script src="/intl/en/chrome/assets/common/js/chrome.min.js">
+    </div><script src="/intl/en/chrome/assets/common/js/chrome.min.js">
 </script> <script>
 var chrmMenuBar = new chrm.ui.MenuBar();
       chrmMenuBar.decorate('nav');
@@ -457,10 +457,32 @@ function startButton(event) {
   interim_span.innerHTML = '';
   start_img.src = '/intl/en/chrome/assets/common/images/content/mic-slash.gif';
   showInfo('info_allow');
-  showButtons('none');
   start_timestamp = event.timeStamp;
 }
-
+function saveAsText() {
+    var a = document.createElement("a");
+    var file = new Blob([final_transcript], {type: "text/plain"});
+    a.href = URL.createObjectURL(file);
+    a.download = "textFile";
+    a.click();
+}
+function saveAsMD() {
+    var a = document.createElement("a");
+    var file = new Blob([final_transcript], {type: "md"});
+    a.href = URL.createObjectURL(file);
+    a.download = "textFile";
+    a.click();
+}
+function sendMail() {
+    $.ajax({
+    data: 'textdata=' + final_transcript
+    url: 'sendEmail.php',
+    method: 'POST', // or GET
+    success: function(msg) {
+        alert(msg);
+    }
+    });
+}
 function showInfo(s) {
   if (s) {
     for (var child = info.firstChild; child; child = child.nextSibling) {
