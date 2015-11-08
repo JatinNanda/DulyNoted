@@ -4,13 +4,14 @@
 </head>
 
 <body>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
 <fieldset>
   <input type="text">
 </fieldset>
 
 <p id="charCount"></p>
 <p id="original"></p>
-<p id="parsed"></p>
+<label id="parsed"></label>
 
 
 <script class="visible">
@@ -23,7 +24,7 @@ function reverse(s) {
 }
  
 function parseExample(s) {
-  return s.replace("for example", "");
+  return s.split(new RegExp("for example", 'g'));
 }
 
 function set(el,text){
@@ -50,7 +51,17 @@ function handleChange(){
   } else {
     oldText = newText;
   }
-  set(parsed, replaceA(newText));
+  var p = parseExample(newText);
+  var stringSum = "";
+  for(i = 0; i < p.length; i++) {
+      stringSum += p[i];
+      if(i < p.length - 1) { //not the last thing
+          stringSum += "<br /> Example:";
+      }
+  }
+  $("#parsed").html(stringSum);
+     // set(parsed, parseExample(newText));
+
   set(count, 'You entered ' + newText.length + ' characters.');
   set(orig, newText);
  }
