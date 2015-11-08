@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
   <title>Duly Noted</title>
+  <link rel="stylesheet" type="text/css" href="noteStyle.css">
 </head>
 
 <body>
@@ -11,15 +12,22 @@
 
 <p id="charCount"></p>
 <p id="original"></p>
-<label id="parsed"></label>
+<span id="parsed"></span>
 
 
+<script src = "jquery.highlight.js"></script>
 <script class="visible">
 /* A convenience function to reverse a string, and 
  * one to set the content of an element.
  */
- 
-var keys = ["important", "critical", "test"];
+
+var keys = ["important", "critical", "test", "exam", "quiz"];
+var interrogatives = ["who", "where", "what","whose", "whom", "how"];
+
+//ending the examples - on another note, additionally, 
+//ignoring fillers - ummm, uh
+//pause for a good amount of time -> new line
+//italics for questions - interrogative pronouns
 
 function reverse(s) {
   return s.split('').reverse().join('');
@@ -32,8 +40,25 @@ function boldKey(s) {
   }
   return s;
 }
+
+function bulletByAnd(s) {
+  var a = new RegExp(("and also|and|also"), 'g');
+  //if (a.test(s)) {
+    return s.split(a);
+  //}
+}
+
+function parseQuestion(s) {
+  for (var i = 0; i < interrogatives.length; i++) {
+    if (s.search(interrogatives[i]) >= 0) {
+      s = s.replace(RegExp(interrogatives[i], 'g'), interrogatives[i].italics());
+    }
+  }
+  return s;
+}
+
 function parseExample(s) {
-  return s.split(new RegExp("for example", 'g'));
+  return s.split(new RegExp(("for example|for instance|to illustrate|an example"), 'g'));
 }
 
 function set(el,text){
@@ -60,18 +85,42 @@ function handleChange(){
   } else {
     oldText = newText;
   }
+
+  //for example
   var p = parseExample(newText);
-  var stringSum = "";
+  stringSum = "";
   for(i = 0; i < p.length; i++) {
       stringSum += p[i];
       if(i < p.length - 1) { //not the last thing
           stringSum += "<br /> Example:";
       }
   }
-  //format for each macro we add - need to modify the html object
   $("#parsed").html(stringSum);
-  $("#parsed").html(boldKey(stringSum));
-  //sets the original before it
+
+  //spaces for ands
+
+  var q = bulletByAnd(stringSum);
+  stringSum = "";
+  for(i = 0; i < q.length; i++) {
+      stringSum += q[i];
+      if(i < q.length - 1) { //not the last thing
+          stringSum += "<br />-";
+      }
+  }
+  $("#parsed").html(stringSum);
+
+  //bold words
+  stringSum = boldKey(stringSum);
+  $("#parsed").html(stringSum);
+
+  //question italics
+  stringSum = parseQuestion(stringSum);
+  $("#parsed").html(stringSum);
+
+  //highlighting macro
+  $("#parsed").highlight("due");
+
+  //original
   set(count, 'You entered ' + newText.length + ' characters.');
   set(orig, newText);
  }
