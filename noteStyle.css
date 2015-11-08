@@ -2,6 +2,17 @@
     * {
         font-family: Verdana, Arial, sans-serif;
     }
+    body {
+      background-color: #98F5FF; /*cadet blue 1*/
+    }
+    h1 {
+      color: #ffff4d;
+      text-shadow:
+      -1px 0px 0 #000,
+       0px -1px 0 #000,
+       0px  1px 0 #000,
+       1px  0px 0 #000;
+    }
     a:link {
         color:#000;
         text-decoration: none;
