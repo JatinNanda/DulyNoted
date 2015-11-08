@@ -43,7 +43,7 @@ function set(el,text){
 
 function setupUpdater(){
     console.log("IN HERE!");
-    input = document.getElementsByTagName('span')[0];
+    input = document.getElementsByTagName('span')[1];
     reversed = document.getElementById('reversed')
         , count = document.getElementById('charCount')
         , orig = document.getElementById('original') //EDIT FOR USE WITH SPEECH SCRIPT -Jay
