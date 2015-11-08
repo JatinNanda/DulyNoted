@@ -1,3 +1,4 @@
+var start = false;
 var buttonPressed=false;
 var langs =
     [['Afrikaans', ['af-ZA']],
@@ -96,9 +97,12 @@ if (!('webkitSpeechRecognition' in window)) {
     recognition.interimResults = true;
 
     recognition.onstart = function () {
+        setupUpdater();
         recognizing = true;
         showInfo('info_speak_now');
         start_img.src = 'mic-animate.gif';
+        //setTimeout(function() {restart();}, 10000)
+        //setTimeout(alert("yo"), 15000)
     };
 
     recognition.onerror = function (event) {
@@ -127,6 +131,13 @@ if (!('webkitSpeechRecognition' in window)) {
         if(!buttonPressed) {
             recognition.start();
         }
+//         if(!buttonPressed) {
+//             recognition = new webkitSpeechRecognition();
+//             recognition.continuous = true;
+//             recognition.interimResults = true;
+//             recognition.start();
+//
+//         }
         else {
 
             recognizing = false;
@@ -156,6 +167,7 @@ if (!('webkitSpeechRecognition' in window)) {
 
     recognition.onresult = function (event) {
         var interim_transcript = '';
+        handleChange();
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
                 final_transcript += event.results[i][0].transcript;
@@ -166,6 +178,7 @@ if (!('webkitSpeechRecognition' in window)) {
         final_transcript = capitalize(final_transcript);
         final_span.innerHTML = linebreak(final_transcript);
         interim_span.innerHTML = linebreak(interim_transcript);
+        //parseExample(interim_transcript);
         if (final_transcript || interim_transcript) {
             showButtons('inline-block');
         }
@@ -223,6 +236,11 @@ function emailButton() {
     showInfo('');
 }
 
+function restart(){
+  recognition.stop();
+  recognition.start();
+}
+
 function startButton(event) {
     if (recognizing) {
         recognition.stop();
@@ -244,6 +262,7 @@ function startButton(event) {
     showInfo('info_allow');
     showButtons('none');
     start_timestamp = event.timeStamp;
+    setupUpdater();
 }
 
 function showInfo(s) {
