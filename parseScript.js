@@ -95,6 +95,18 @@ function handleChange(){
   console.log("HEADIN TO THAT TIMEOUT");
   timeout = setTimeout(handleChange, 50);
  }
+ function downloadPDF() {
+     var doc = new jsPDF();
+     var myStr = $("#parsed").innerHTML;
+     var myRes = "";
+     while(myStr.substring(point).length>25)
+     {
+           myRes=myRes+myStr.substring(point,point+25)+"\n";
+           point+=25;
+     }
+     doc.text(20, 20, myRes);
+     doc.save("File.pdf");
+ }
 
  //input.onclick = eventHandler;
   //input.onkeydown = input.onkeyup = input.onclick = eventHandler;

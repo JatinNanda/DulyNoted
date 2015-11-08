@@ -12,8 +12,3 @@ function saveAsMD() {
     a.download = "textFile";
     a.click();
 }
-function downloadPDF() {
-    var doc = new jsPDF();
-    doc.text(20, 20, final_transcript);
-    doc.save("File.pdf");
-}

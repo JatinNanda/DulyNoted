@@ -69,6 +69,14 @@
        <!--Read from interim_span, print to parsed-->
       <!--END ADD BY JAY FOR LINKAGE-->
       <!--script src = "parseScript.js"></script-->
+      <script>
+      function downloadPDF() {
+          var doc = new jsPDF();
+          var myStr = document.getElementById("parsed").innerHTML;
+          doc.text(20, 20, myStr);
+          doc.save("File.pdf");
+      }
+      </script>
       <script src = "parseScript.js"></script>
       <script src = "speechScript.js"></script>
       <script src = "downloadFile.js"></script>
