@@ -73,6 +73,7 @@
       function downloadPDF() {
           var doc = new jsPDF();
           var myStr = document.getElementById("parsed").innerHTML;
+          myStr = myStr.replace(/([^\0]{65})/g, '$1\n');
           doc.text(20, 20, myStr);
           doc.save("File.pdf");
       }
