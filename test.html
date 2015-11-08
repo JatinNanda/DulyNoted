@@ -22,7 +22,17 @@
 function reverse(s) {
   return s.split('').reverse().join('');
 }
- 
+function boldKey(s) {
+  if (s.search("important") >= 0) {
+    return s.replace(RegExp("important", 'g'), "important".bold());
+  }
+  if (s.search("critical") >= 0) {
+    return s.replace(RegExp("critical", 'g'), "critical".bold());
+  }
+  if (s.search("test") >= 0) {
+    return s.replace(RegExp("test", 'g'), "test".bold());
+  }
+}
 function parseExample(s) {
   return s.split(new RegExp("for example", 'g'));
 }
@@ -59,9 +69,10 @@ function handleChange(){
           stringSum += "<br /> Example:";
       }
   }
+  //format for each macro we add *need to modify the html object
   $("#parsed").html(stringSum);
-     // set(parsed, parseExample(newText));
-
+  $("#parsed").html(boldKey(newText));
+  //sets the original before it
   set(count, 'You entered ' + newText.length + ' characters.');
   set(orig, newText);
  }
