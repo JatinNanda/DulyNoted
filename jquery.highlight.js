@@ -79,6 +79,33 @@ jQuery.fn.unhighlight = function (options) {
     }).end();
 };
 
+jQuery.fn.highlight2 = function (words, options) {
+    var settings = { className: 'highlight2', element: 'span', caseSensitive: false, wordsOnly: false };
+    jQuery.extend(settings, options);
+    
+    if (words.constructor === String) {
+        words = [words];
+    }
+    words = jQuery.grep(words, function(word, i){
+      return word != '';
+    });
+    words = jQuery.map(words, function(word, i) {
+      return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    });
+    if (words.length == 0) { return this; };
+
+    var flag = settings.caseSensitive ? "" : "i";
+    var pattern = "(" + words.join("|") + ")";
+    if (settings.wordsOnly) {
+        pattern = "\\b" + pattern + "\\b";
+    }
+    var re = new RegExp(pattern, flag);
+    
+    return this.each(function () {
+        jQuery.highlight(this, re, settings.element, settings.className);
+    });
+};
+
 jQuery.fn.highlight = function (words, options) {
     var settings = { className: 'highlight', element: 'span', caseSensitive: false, wordsOnly: false };
     jQuery.extend(settings, options);
@@ -105,3 +132,4 @@ jQuery.fn.highlight = function (words, options) {
         jQuery.highlight(this, re, settings.element, settings.className);
     });
 };
+

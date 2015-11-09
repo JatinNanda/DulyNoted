@@ -2,8 +2,8 @@
  * one to set the content of an element.
  */
 var newText="";
-var keys = ["important", "critical", "test"];
-var interrogatives = ["who", "when", "where", "what", "why", "which", "whose", "whom", "how"];
+var keys = ["important", "critical", "test", "exam", "quiz"];
+var interrogatives = ["who", "where", "what","whose", "whom", "how"];
 var input, prior,reversed, count, orig, oldText, timeout;
 
 //ending the examples - on another note, additionally,
@@ -15,13 +15,6 @@ function reverse(s) {
   return s.split('').reverse().join('');
 }
 
-/*function parseQuestion(s) {
-  for (var i = 0; i < interrogatives) {
-    if (s.search(keys[i]) >= 0) {
-      s = s.replace(RegExp(keys[i]))
-    }
-  }
-}*/
 function boldKey(s) {
   for (var i = 0; i < keys.length; i++) {
     if (s.search(keys[i]) >= 0) {
@@ -30,8 +23,25 @@ function boldKey(s) {
   }
   return s;
 }
+
 function parseExample(s) {
-  return s.split(new RegExp("for example", 'g'));
+    return s.split(new RegExp(("for example|for instance|to illustrate|an example"), 'g'));
+}
+
+function bulletByAnd(s) {
+    var a = new RegExp(("and also|and|also"), 'g');
+    //if (a.test(s)) {
+    return s.split(a);
+    //}
+}
+
+function parseQuestion(s) {
+    for (var i = 0; i < interrogatives.length; i++) {
+        if (s.search(interrogatives[i]) >= 0) {
+            s = s.replace(RegExp(interrogatives[i], 'g'), interrogatives[i].italics());
+        }
+    }
+    return s;
 }
 
 function set(el,text){
@@ -56,31 +66,50 @@ function setupUpdater(){
    typing. */
 }
 function handleChange(){
-  //if (timeout) {
-  //  clearTimeout(timeout);
-  //}
-  console.log("HEADIN TO THAT TIMEOUT");
-  //timeout = setTimeout(handleChange, 50);
-  //
-  console.log("HANDLIN' THAT CHANGE");
   newText = prior.innerHTML.concat(input.innerHTML); //formerly value
   if (newText == oldText) {
     return;
   } else {
     oldText = newText;
   }
-  var p = parseExample(newText);
-  var stringSum = "";
-  for(i = 0; i < p.length; i++) {
-      stringSum += p[i];
-      if(i < p.length - 1) { //not the last thing
-          stringSum += "<br /> Example:";
-      }
-  }
-  //format for each macro we add - need to modify the html object
-  $("#parsed").html(stringSum);
-  $("#parsed").html(boldKey(stringSum));
-  //sets the original before it
+    var p = parseExample(newText);
+    stringSum = "";
+    for(i = 0; i < p.length; i++) {
+        stringSum += p[i];
+        if(i < p.length - 1) { //not the last thing
+            stringSum += "<br /> Example:";
+        }
+    }
+    $("#parsed").html(stringSum);
+
+    //spaces for ands
+    var q = bulletByAnd(stringSum);
+    stringSum = "";
+    for(i = 0; i < q.length; i++) {
+        stringSum += q[i];
+        if(i < q.length - 1) { //not the last thing
+            stringSum += "<br />";
+        }
+    }
+    //bold words
+    stringSum = boldKey(stringSum);
+    $("#parsed").html(stringSum);
+
+    //question italics
+    stringSum = parseQuestion(stringSum);
+    $("#parsed").html(stringSum);
+
+    ////highlighting macro
+    $.getScript('/HackDuke/jquery.highlight.js', function() {
+        //$('head').append('<link rel="stylesheet" href="noteStyle.css" type="text/css"/>');
+        console.log("hello");
+        $("#parsed").highlight("due");
+        $("#parsed").highlight2("mistake");
+        $("#parsed").highlight2("oops");
+        $("#parsed").highlight2("messed up");
+});
+
+    //sets the original before it
   set(count, 'You entered ' + newText.length + ' characters.');
   set(orig, newText);
 
@@ -112,10 +141,10 @@ function handleChange(){
   //input.onkeydown = input.onkeyup = input.onclick = eventHandler;
   input.onclick = eventHandler;
 }
-$("#interim_span").text('test').trigger('change');
-$("#interim_span").on('change',function(){
-     //Do calculation and change value of other span2,span3 here
-     console.log("CHANGEY");
-     setupUpdater();
-});
+//$("#interim_span").text('test').trigger('change');
+//$("#interim_span").on('change',function(){
+//     //Do calculation and change value of other span2,span3 here
+//     console.log("CHANGEY");
+//     setupUpdater();
+//});
 document.getElementsByTagName('span')[1].focus();
