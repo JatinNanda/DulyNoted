@@ -1,7 +1,7 @@
 function sendMail() {
     alert("We're in");
     $.ajax({
-    url: 'sendEmail.php',
+    url: './php/sendEmail.php',
     type: 'GET',
     data: {textdata: final_transcript},
     success: function(data) {
